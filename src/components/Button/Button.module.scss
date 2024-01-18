@@ -1,0 +1,28 @@
+.button {
+  min-width: 60px;
+  display: flex;
+  gap: 10px;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+  height: 50px;
+  width: 100px;
+  }
+.blue {
+  background-color: #4661d7;
+  border: 2px #1e38ab solid;
+
+  &:active {
+    background: rgba(25, 49, 152, 0.82) !important;
+  }
+
+  &:hover {
+    background: rgba(39, 63, 168, 0.82);
+  }
+}
+
+

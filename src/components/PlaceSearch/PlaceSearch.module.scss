@@ -1,0 +1,63 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 500px;
+  margin: auto;
+  margin-top: 50px;
+
+  .input {
+    .inputAndSuggestion {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .locationSearchInput {
+        width: 500px;
+        height: 40px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0px 0px 5px 0px gray;
+        padding: 5px;
+        font-size: 20px;
+
+        &:focus-within {
+          outline: none;
+          box-shadow: 0 0px 7px 2px gray;
+        }
+      }
+
+      .items {
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0px 0px 5px 0px gray;
+        cursor: pointer;
+
+        .activeItem {
+          background-color: #f1f1f1;
+          margin-top: 7px;
+
+          span {
+            font-size: 20px;
+            padding: 3px 10px 3px 10px;
+
+          }
+        }
+
+        .notActiveItem {
+          margin-top: 7px;
+
+          span {
+            font-size: 20px;
+            padding: 0 10px;
+          }
+        }
+      }
+    }
+  }
+
+  .btn {
+
+  }
+}
