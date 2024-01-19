@@ -1,6 +1,6 @@
 import exp from "constants";
 
-interface IWeeklyForecast {
+export interface IWeeklyForecast {
     date: string;
     temperature: number;
 }

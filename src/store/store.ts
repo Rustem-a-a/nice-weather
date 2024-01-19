@@ -2,7 +2,7 @@ import {applyMiddleware, combineReducers} from 'redux';
 import {legacy_createStore as createStore} from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import {rootWatcher} from "../saga";
-import {IResponseCurrentWeather, IResponseWeeklyWeather} from "../types/IForecast";
+import {IResponseCurrentWeather, IResponseWeeklyWeather, IWeeklyForecast} from "../types/IForecast";
 import weatherReducer from "./reducers/weatherReducer";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -17,7 +17,7 @@ sagaMiddleware.run(rootWatcher)
 export interface RootState {
     weather: {
         currentWeather: IResponseCurrentWeather;
-        weeklyWeather: IResponseWeeklyWeather;
+        weeklyWeather: IWeeklyForecast[];
     },
 }
 

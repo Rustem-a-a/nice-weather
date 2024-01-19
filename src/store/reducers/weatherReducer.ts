@@ -1,13 +1,13 @@
-import {IResponseCurrentWeather, IResponseWeeklyWeather} from "../../types/IForecast";
+import {IResponseCurrentWeather, IResponseWeeklyWeather, IWeeklyForecast} from "../../types/IForecast";
 import {GET_CURRENT_WEATHER, GET_WEEKLY_WEATHER} from "../actions/weatherActions";
 
 
 const initialState: {
     currentWeather: IResponseCurrentWeather;
-    weeklyWeather:IResponseWeeklyWeather
+    weeklyWeather:IWeeklyForecast[]
 } = {
     currentWeather: {} as IResponseCurrentWeather,
-    weeklyWeather:{} as IResponseWeeklyWeather
+    weeklyWeather:{} as IWeeklyForecast[]
 }
 
 const weatherReducer = (state = initialState, action: any) => {
@@ -22,3 +22,5 @@ const weatherReducer = (state = initialState, action: any) => {
 }
 
 export default weatherReducer
+
+

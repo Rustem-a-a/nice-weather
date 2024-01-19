@@ -6,12 +6,11 @@ import {
     getCurrentWeather,
     getWeeklyWeather, getWeeklyWeathersAsync
 } from "../store/actions/weatherActions";
+import {IResponseWeeklyWeather, IWeeklyForecast} from "../types/IForecast";
 
 function*  getCurrentTemperatureWorker(action:any) {
     try {
-        console.log(1111111111)
         const {data} = yield call(WeatherService.getCurrentWeather, action.payload)
-        console.log(data)
         yield put(getCurrentWeather(data))
     } catch (e: any) {
         console.log(e.response.data)
@@ -20,10 +19,10 @@ function*  getCurrentTemperatureWorker(action:any) {
 
 function*  getWeeklyTemperatureWorker(action:any) {
     try {
-        console.log(22222222222)
         const {data} = yield call(WeatherService.getWeeklyWeather, action.payload)
-        console.log(data)
-        yield put(getWeeklyWeather(data))
+        const newData = data.list.map((v:any)=>({date:v.dt as string,temperature:v.main.temp as number }))
+        // console.log(newData)
+        yield put(getWeeklyWeather(newData))
     } catch (e: any) {
         console.log(e.response.data)
     }
@@ -34,3 +33,9 @@ export function* weatherWatcher() {
     yield takeEvery(GET_WEEKLY_WEATHER_ASYNC, getWeeklyTemperatureWorker)
 
 }
+
+
+
+
+
+
