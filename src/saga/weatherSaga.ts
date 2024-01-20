@@ -3,24 +3,34 @@ import WeatherService from "../services/WeatherService";
 import {
     GET_CURRENT_WEATHER_ASYNC,
     GET_WEEKLY_WEATHER_ASYNC,
-    getCurrentWeather,
+    getCurrentWeather, getWeatherLS,
     getWeeklyWeather, getWeeklyWeathersAsync
 } from "../store/actions/weatherActions";
-import {IResponseWeeklyWeather, IWeeklyForecast} from "../types/IForecast";
+import {IResponseCurrentWeather, IResponseWeeklyWeather, IWeeklyForecast} from "../types/IForecast";
 
-function*  getCurrentTemperatureWorker(action:any) {
+function* getCurrentTemperatureWorker(action: any) {
     try {
         const {data} = yield call(WeatherService.getCurrentWeather, action.payload)
-        yield put(getCurrentWeather(data))
+        const response: { data: { list: [] } } = yield call(WeatherService.getWeeklyWeather, data.name)
+        const newData: IWeeklyForecast[] = response?.data?.list.map((v: any) => ({
+            date: v.dt as string,
+            temperature: v.main.temp as number
+        }))
+        const weather: {
+            currentWeather: IResponseCurrentWeather,
+            weeklyWeather: IWeeklyForecast[],
+            isCelsius: boolean
+        } = {currentWeather: data, weeklyWeather: newData, isCelsius: true}
+        yield put(getCurrentWeather(weather))
     } catch (e: any) {
         console.log(e.response.data)
     }
 }
 
-function*  getWeeklyTemperatureWorker(action:any) {
+function* getWeeklyTemperatureWorker(action: any) {
     try {
         const {data} = yield call(WeatherService.getWeeklyWeather, action.payload)
-        const newData = data.list.map((v:any)=>({date:v.dt as string,temperature:v.main.temp as number }))
+        const newData = data.list.map((v: any) => ({date: v.dt as string, temperature: v.main.temp as number}))
         // console.log(newData)
         yield put(getWeeklyWeather(newData))
     } catch (e: any) {

@@ -1,9 +1,13 @@
+
 .wrapper {
   width: 300px;
-  height: 200px;
+  height: 250px;
   background-color: rgba(245, 237, 167, 0.18);
   border-radius: 7px;
   box-shadow: 0 2px 5px gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   .topWrapper {
     display: flex;
@@ -35,6 +39,7 @@
 
       .closeCard {
         align-self: start;
+        cursor: pointer;
 
         img {
           width: 10px;
@@ -50,6 +55,7 @@
     align-items: center;
   }
 
+
   .bottomWrapper {
     display: flex;
     justify-content: space-between;
@@ -57,24 +63,54 @@
 
     .leftBottomWrapper {
       margin: 0 0 5px 10px;
+      display: flex;
+      flex-direction: column;
 
       .temperature {
         display: flex;
         gap: 4px;
+        justify-self: end;
+        span{
+          align-self: end;
+          font-size: 30px;
+        }
 
         .C, .F {
           cursor: pointer;
+          font-size: 13px;
         }
       }
 
       .feel {
+        color: dimgray;
+        justify-self: end;
       }
     }
 
     .rightBottomWrapper {
+      display: flex;
+      flex-direction: column;
+      align-self: end;
+      .orange{
+        color: #f88f4d;
+
+      }
+      .blue{
+        color: #5B93FF;
+      }
+
       span {
         font-weight: bold;
+        font-size: 13px;
       }
     }
   }
+}
+
+.warm {
+  background-color: #FFFAF1
+}
+
+.cold {
+  background-color: #F1F2FF;
 }

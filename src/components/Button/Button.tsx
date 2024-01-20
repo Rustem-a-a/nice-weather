@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './Button.module.scss'
 import {t} from "i18next";
 
-const Button = () => {
+interface IProps{
+    onClick: ()=>void
+}
+const Button: FC<IProps> = ({onClick}) => {
     return (
-        <button className={`${styles.button} ${styles.blue}`}>
+        <button onClick={onClick} className={`${styles.button} ${styles.blue}`}>
             {t('btnAdd')}
         </button>
     );

@@ -18,7 +18,8 @@ export interface RootState {
     weather: {
         currentWeather: IResponseCurrentWeather;
         weeklyWeather: IWeeklyForecast[];
-    },
+        isCelsius:boolean
+    }[],
 }
 
 export type Dispatch = typeof store.dispatch
