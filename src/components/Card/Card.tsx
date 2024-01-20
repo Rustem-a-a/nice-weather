@@ -7,10 +7,17 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {
     changeCurrentPlaceWeather,
-    getCurrentWeather,
-    getCurrentWeathersAsync,
     getWeatherLS
 } from "../../store/actions/weatherActions";
+import dayjs from "dayjs";
+import 'dayjs/locale/ru'
+import 'dayjs/locale/uk'
+
+
+
+interface TimestampFormatterProps {
+    timestamp: number;
+}
 
 interface WeatherChartProps {
     currentWeather: IResponseCurrentWeather;
@@ -20,7 +27,7 @@ interface WeatherChartProps {
 
 const Card: React.FC<WeatherChartProps> = ({currentWeather, weeklyWeather,isCelsius}) => {
     const [celsius, setCelsius] = useState<boolean>(isCelsius);
-    const [color, setColor] = useState<string>(currentWeather?.main?.temp > 0 ? '#FFE2C8' : '#C5D4FF');
+    const [color, setColor] = useState<string>(currentWeather?.main?.temp > 0 ? '#fda871' : '#6779c5');
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
     const weather = useSelector((state: RootState) => state.weather)
     const [currentCardWeather, setCurrentCardWeather] = useState<IResponseCurrentWeather>(currentWeather);
@@ -32,24 +39,7 @@ const Card: React.FC<WeatherChartProps> = ({currentWeather, weeklyWeather,isCels
         dispatch(changeCurrentPlaceWeather({currentWeather,weeklyWeather,isCelsius:celsius}))
     }, [celsius]);
 
-    const timestamp = currentWeather.dt;
-    const date = new Date(timestamp);
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ];
-    const formattedDate = `${t(daysOfWeek[date.getUTCDay()])}, ${date.getUTCDate()} ${t(months[date.getUTCMonth()])}, ${date.getUTCHours()}:${date.getUTCMinutes()}`;
+    const formattedDate = dayjs.unix(currentWeather.dt).format('ddd, D MMMM, HH:mm');
 
     return (
         <div className={`${style.wrapper} ${currentWeather?.main?.temp > 0 ? style.warm : style.cold}`}>
@@ -91,7 +81,7 @@ const Card: React.FC<WeatherChartProps> = ({currentWeather, weeklyWeather,isCels
                 </div>
             </div>
             <div className={style.chart}>
-                <Chart data={weeklyWeather} id={currentWeather.coord.lat.toString()} chartColor={color} />
+                <Chart data={weeklyWeather} id={currentWeather.coord.lat.toString()} chartColor={color} celsius={celsius} />
             </div>
             <div className={style.bottomWrapper}>
 

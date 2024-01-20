@@ -1,4 +1,4 @@
-import React, {FC, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng, Suggestion} from 'react-places-autocomplete';
 import styles from './PlaceSearch.module.scss';
 import Button from '../Button/Button';
@@ -36,6 +36,7 @@ const PlaceSearch = () => {
     };
     const handleSelect = async (selectedAddress: string) => {
         try {
+            setAddress(selectedAddress);
             const results = await geocodeByAddress(selectedAddress);
             const latLng = await getLatLng(results[0]);
             setSelectedPlace({
@@ -43,7 +44,7 @@ const PlaceSearch = () => {
                 longitude: latLng.lng,
                 city: results[0]?.address_components[0]?.long_name
             });
-            setAddress(selectedAddress);
+
         } catch (error) {
             console.error('Error selecting city:', error);
         }
@@ -67,6 +68,11 @@ const PlaceSearch = () => {
                                         {...getInputProps({
                                             placeholder: t('citySearch'),
                                             className: `${styles.locationSearchInput} location-search-input`,
+                                            onKeyDown: (e) => {
+                                                if (e.key === 'Enter') {
+                                                    addPlaceToBoard();
+                                                }
+                                            }
                                         })}
                                     />
                                     {listLoaded &&

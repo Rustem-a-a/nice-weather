@@ -13,6 +13,7 @@ import Card from "./components/Card/Card";
 import {put} from "redux-saga/effects";
 import {IResponseCurrentWeather, IWeeklyForecast} from "./types/IForecast";
 import CardWrapper from "./components/CardWrapper/CardWrapper";
+import dayjs from "dayjs";
 
 function App() {
     const [language, setLanguage] = useState<string>('');
@@ -21,6 +22,9 @@ function App() {
     const {t, i18n} = useTranslation()
 
     useEffect(() => {
+        const currentLanguage = localStorage.getItem('language')
+        if (!currentLanguage) setLanguage(navigator.language || 'en');
+
         const LS: {
             currentWeather: IResponseCurrentWeather;
             weeklyWeather: IWeeklyForecast[];
@@ -36,24 +40,14 @@ function App() {
     }, []);
 
     useEffect(() => {
-        const lng = navigator.language;
-        if (lng && !language) {
-            setLanguage(lng);
-        } else if (!language) {
-            setLanguage('en')
-        }
         i18n.changeLanguage(language)
+        dayjs.locale(language)
     }, [language]);
 
     useEffect(() => {
-        const handleBeforeUnload = () => {
-            localStorage.setItem('LSForecast', JSON.stringify(weather));
-        };
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
+        localStorage.setItem('LSForecast', JSON.stringify(weather));
     }, [weather])
+
     return (
         <div className="App">
             <Language language={language} onChange={setLanguage}/>

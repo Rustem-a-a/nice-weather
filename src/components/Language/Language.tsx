@@ -4,13 +4,12 @@ import styles from './Language.module.scss';
 interface IProps {
     onChange: React.Dispatch<React.SetStateAction<string>>;
     language: string;
-};
+}
 
 interface ILanguageOptions {
     value: string;
     label: string
 }
-
 const LanguageSelect: FC<IProps> = ({onChange, language}) => {
     const languageOptions: ILanguageOptions[] = [
         {value: 'en', label: 'EN'},

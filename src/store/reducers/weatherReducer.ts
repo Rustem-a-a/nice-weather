@@ -1,4 +1,4 @@
-import {IResponseCurrentWeather, IResponseWeeklyWeather, IWeeklyForecast} from "../../types/IForecast";
+import {IResponseCurrentWeather, IWeeklyForecast} from "../../types/IForecast";
 import {
     CHANGE_CURRENT_PLACE_WEATHER,
     GET_CURRENT_WEATHER,
@@ -17,12 +17,13 @@ const weatherReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case GET_WEATHER_LS:
             return [...action.payload]
+
         case GET_CURRENT_WEATHER:
             const placeIndex = state.findIndex(v =>
                 v.currentWeather.coord.lat === action.payload.currentWeather.coord.lat &&
                 v.currentWeather.coord.lon === action.payload.currentWeather.coord.lon)
             if (placeIndex === -1) {
-                return [...state, action.payload]
+                return [action.payload,...state]
             } else {
                 const data = state.map((v: {
                     currentWeather: IResponseCurrentWeather;
