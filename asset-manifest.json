@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/nice-weather/static/css/main.9ad3a763.css",
+    "main.js": "/nice-weather/static/js/main.62dc993e.js",
+    "static/js/787.8ea20b6d.chunk.js": "/nice-weather/static/js/787.8ea20b6d.chunk.js",
+    "index.html": "/nice-weather/index.html",
+    "main.9ad3a763.css.map": "/nice-weather/static/css/main.9ad3a763.css.map",
+    "main.62dc993e.js.map": "/nice-weather/static/js/main.62dc993e.js.map",
+    "787.8ea20b6d.chunk.js.map": "/nice-weather/static/js/787.8ea20b6d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9ad3a763.css",
+    "static/js/main.62dc993e.js"
+  ]
+}
