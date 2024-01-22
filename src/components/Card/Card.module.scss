@@ -1,13 +1,14 @@
-
 .wrapper {
-  width: 300px;
-  height: 250px;
+  width: 350px;
+  height: 300px;
   background-color: rgba(245, 237, 167, 0.18);
   border-radius: 7px;
   box-shadow: 0 2px 5px gray;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
+
 
   .topWrapper {
     display: flex;
@@ -70,7 +71,8 @@
         display: flex;
         gap: 4px;
         justify-self: end;
-        span{
+
+        span {
           align-self: end;
           font-size: 30px;
         }
@@ -91,11 +93,13 @@
       display: flex;
       flex-direction: column;
       align-self: end;
-      .orange{
+
+      .orange {
         color: #f88f4d;
 
       }
-      .blue{
+
+      .blue {
         color: #5B93FF;
       }
 

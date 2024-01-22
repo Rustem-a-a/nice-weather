@@ -5,9 +5,9 @@ export const GET_WEATHER_LS = 'GET_WEATHER_LS';
 export const CHANGE_CURRENT_PLACE_WEATHER = 'CHANGE_CURRENT_PLACE_WEATHER';
 export const GET_CURRENT_WEATHER = 'GET_CURRENT_WEATHER';
 export const GET_CURRENT_WEATHER_ASYNC = 'GET_CURRENT_WEATHER_ASYNC';
-
 export const GET_WEEKLY_WEATHER = 'GET_WEEKLY_WEATHER';
 export const GET_WEEKLY_WEATHER_ASYNC = 'GET_WEEKLY_WEATHER_ASYNC';
+
 export const getWeatherLS = (weatherLS: {currentWeather:IResponseCurrentWeather,weeklyWeather:IWeeklyForecast[],isCelsius:boolean}[]) => ({
     type: GET_WEATHER_LS,
     payload: weatherLS

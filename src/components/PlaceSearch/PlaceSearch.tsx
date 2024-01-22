@@ -6,28 +6,29 @@ import {ISelectedPlace} from '../../types/Ilocation';
 import {t} from "i18next";
 import {getCurrentWeathersAsync} from "../../store/actions/weatherActions";
 import {useDispatch} from "react-redux";
+import {GOOGLE_API_KEY} from '../../API_KEY'
+import {Dispatch} from "../../store/store";
 
 const PlaceSearch = () => {
     const [address, setAddress] = useState<string>('');
     const [apiLoaded, setApiLoaded] = useState<boolean>(false);
-    const [listLoaded, setListLoaded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<ISelectedPlace>({latitude: 0, longitude: 0, city: ''});
-    console.log(selectedPlace)
-    const dispatch = useDispatch();
+    const dispatch: Dispatch = useDispatch();
     useEffect(() => {
         const script = document.createElement('script');
-        // script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places`;
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA9bslaj5Bl5nLuQQXe8rr_PkhDvvZqzMs&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places&callback=initMap`;
         script.async = true;
-        script.onload = () => setApiLoaded(true);
+        (window as any).initMap = () => {
+            setApiLoaded(true);
+        };
         document.body.appendChild(script);
         return () => {
             document.body.removeChild(script);
         };
     }, []);
     const addPlaceToBoard = () => {
-        if (selectedPlace.latitude || selectedPlace.longitude) {
-            dispatch(getCurrentWeathersAsync({latitude: selectedPlace.latitude, longitude: selectedPlace.longitude}))
+        if (selectedPlace.latitude && selectedPlace.longitude && address) {
+            dispatch(getCurrentWeathersAsync({latitude: selectedPlace.latitude, longitude: selectedPlace.longitude}));
             setAddress('');
         }
     }
@@ -44,12 +45,10 @@ const PlaceSearch = () => {
                 longitude: latLng.lng,
                 city: results[0]?.address_components[0]?.long_name
             });
-
         } catch (error) {
             console.error('Error selecting city:', error);
         }
     };
-
     return (
         <div className={styles.wrapper}>
             <div className={styles.input}>
@@ -61,31 +60,29 @@ const PlaceSearch = () => {
                         className={styles.locationSearchInput}/>}
                 {apiLoaded && (<PlacesAutocomplete value={address} onChange={handleChange} onSelect={handleSelect}>
                         {({getInputProps, suggestions, getSuggestionItemProps, loading}) => {
-                            suggestions.length ? setListLoaded(true) : setListLoaded(false)
                             return (
                                 <div className={styles.inputAndSuggestion}>
                                     <input
-                                        {...getInputProps({
-                                            placeholder: t('citySearch'),
-                                            className: `${styles.locationSearchInput} location-search-input`,
-                                            onKeyDown: (e) => {
-                                                if (e.key === 'Enter') {
-                                                    addPlaceToBoard();
+                                        {...getInputProps(
+                                            {
+                                                placeholder: t('citySearch'),
+                                                className: styles.locationSearchInput,
+                                                onKeyDown: (e) => {
+                                                    if (e.key === 'Enter') {
+                                                        addPlaceToBoard();
+                                                    }
                                                 }
                                             }
-                                        })}
+                                        )}
                                     />
-                                    {listLoaded &&
-                                        <div className={`autocomplete-dropdown-container ${styles.items}`}>
-                                            {suggestions.slice(0, 3).map((suggestion: Suggestion) => {
-                                                const className = suggestion.active ? styles.activeItem : styles.notActiveItem;
+                                    {suggestions.length > 0 &&
+                                        <div className={styles.items}>
+                                            {suggestions.map((suggestion: Suggestion, i) => {
+                                                const switchClass = suggestion.active ? styles.activeItem : '';
                                                 return (
-                                                    <div
-                                                        {...getSuggestionItemProps(suggestion, {
-                                                            className,
-                                                        })}
-                                                    >
-                                                        <span className={styles.drop}>{suggestion.description}</span>
+                                                    <div  {...getSuggestionItemProps(suggestion, {className: `${styles.item} ${switchClass}`})}
+                                                          key={suggestion.description}>
+                                                        {suggestion.description}
                                                     </div>
                                                 );
                                             })}

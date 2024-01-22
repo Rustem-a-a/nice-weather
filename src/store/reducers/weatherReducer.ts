@@ -2,35 +2,42 @@ import {IResponseCurrentWeather, IWeeklyForecast} from "../../types/IForecast";
 import {
     CHANGE_CURRENT_PLACE_WEATHER,
     GET_CURRENT_WEATHER,
-    GET_WEATHER_LS,
-    GET_WEEKLY_WEATHER
+    GET_WEATHER_LS
 } from "../actions/weatherActions";
-
 
 const initialState: {
     currentWeather: IResponseCurrentWeather;
-    weeklyWeather: IWeeklyForecast[]
-    isCelsius: boolean
+    weeklyWeather: IWeeklyForecast[];
+    isCelsius: boolean;
 }[] = []
 
 const weatherReducer = (state = initialState, action: any) => {
+    const lat = action?.payload?.currentWeather?.coord?.lat,
+        lon = action?.payload?.currentWeather?.coord?.lon;
+
     switch (action.type) {
         case GET_WEATHER_LS:
             return [...action.payload]
 
         case GET_CURRENT_WEATHER:
-            const placeIndex = state.findIndex(v =>
-                v.currentWeather.coord.lat === action.payload.currentWeather.coord.lat &&
-                v.currentWeather.coord.lon === action.payload.currentWeather.coord.lon)
+            const placeIndex = state.findIndex((v) => {
+                const stateLat = v?.currentWeather?.coord?.lat,
+                    stateLon = v?.currentWeather?.coord?.lon;
+
+                return stateLat === lat && stateLon === lon;
+            })
             if (placeIndex === -1) {
-                return [action.payload,...state]
+                return [action.payload, ...state]
             } else {
                 const data = state.map((v: {
                     currentWeather: IResponseCurrentWeather;
                     weeklyWeather: IWeeklyForecast[];
                     isCelsius: boolean;
                 }) => {
-                    if (v.currentWeather.coord.lat === action.payload.currentWeather.coord.lat) {
+                    const stateLat = v?.currentWeather?.coord?.lat,
+                        stateLon = v?.currentWeather?.coord?.lon;
+
+                    if (stateLat === lat && stateLon === lon) {
                         return action.payload
                     } else {
                         return v
@@ -45,7 +52,10 @@ const weatherReducer = (state = initialState, action: any) => {
                 weeklyWeather: IWeeklyForecast[];
                 isCelsius: boolean;
             }) => {
-                if (v.currentWeather.coord.lat === action.payload.currentWeather.coord.lat) {
+                const stateLat = v?.currentWeather?.coord?.lat,
+                    stateLon = v?.currentWeather?.coord?.lon;
+
+                if (stateLat === lat && stateLon === lon) {
                     return action.payload
                 } else {
                     return v
@@ -56,38 +66,4 @@ const weatherReducer = (state = initialState, action: any) => {
             return state
     }
 }
-
 export default weatherReducer
-
-
-//
-//
-// import {IResponseCurrentWeather, IResponseWeeklyWeather, IWeeklyForecast} from "../../types/IForecast";
-// import {GET_CURRENT_WEATHER, GET_WEEKLY_WEATHER} from "../actions/weatherActions";
-//
-//
-// const initialState: {
-//     currentWeather: IResponseCurrentWeather;
-//     weeklyWeather:IWeeklyForecast[]
-// } = {
-//     currentWeather: {} as IResponseCurrentWeather,
-//     weeklyWeather:{} as IWeeklyForecast[]
-// }
-//
-// const weatherReducer = (state = initialState, action: any) => {
-//     switch (action.type) {
-//         case GET_CURRENT_WEATHER:
-//             return {...state, currentWeather: action.payload}
-//         case GET_WEEKLY_WEATHER:
-//             return {...state, weeklyWeather: action.payload}
-//         default:
-//             return state
-//     }
-// }
-//
-// export default weatherReducer
-
-
-
-
-

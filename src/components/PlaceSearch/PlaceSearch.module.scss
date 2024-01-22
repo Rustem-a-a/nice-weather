@@ -24,14 +24,14 @@
     display: flex;
     flex-direction: row;
     gap: 20px;
-    @media (max-width: 600px) {
+    @media (max-width: 790px) {
       flex-direction: column;
       align-items: center;
     }
 
     .btnTop {
       display: none;
-      @media (max-width: 600px) {
+      @media (max-width: 790px) {
         display: block;
       }
     }
@@ -49,52 +49,56 @@
         box-shadow: 0px 0px 5px 0px gray;
         padding: 5px;
         font-size: 20px;
-        @media(max-width: 800px) {
+        @media(max-width: 790px) {
           width: 300px;
         }
 
         &:focus-within {
           outline: none;
-          box-shadow: 0 0px 7px 2px gray;
+          box-shadow: 0 0 7px 2px gray;
         }
       }
 
       .items {
+        background-color: #ffffff;
         width: 500px;
-        padding: 5px;
         font-size: 16px;
         border-radius: 5px;
         border: none;
         box-shadow: 0px 0px 5px 0px gray;
         cursor: pointer;
         position: absolute;
-        top: calc(100% + 20px);
-        left: 0;
-        right: 0;
+        top: calc(100% + 10px);
         z-index: 1;
+        max-height: 50vh;
+        overflow-x: hidden;
+
         @media(max-width: 800px) {
           width: 300px;
         }
 
-        .activeItem {
-          background-color: #f1f1f1;
-          margin-top: 7px;
-
-          span {
-            font-size: 20px;
-            padding: 3px 10px 3px 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
+        .item {
+          font-size: 20px;
+          padding: 10px 5px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
 
-        .notActiveItem {
-          margin-top: 7px;
+        .activeItem {
+          background-color: #f1f1f1;
+        }
 
-          span {
-            font-size: 20px;
-            padding: 0 10px;
+        .drop {
+          font-size: 20px;
+          padding: 0 3px 0 3px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: -10;
+
+          &:hover {
+            background-color: #dbe7f1;
           }
         }
       }
@@ -102,8 +106,21 @@
   }
 
   .btn {
-    @media (max-width: 600px) {
+    @media (max-width: 790px) {
       display: none;
     }
   }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(106, 106, 106, 0.6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
 }

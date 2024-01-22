@@ -1,5 +1,6 @@
 import React, {FC} from 'react';
 import styles from './Language.module.scss';
+import SelectCustom from "../Select/Select";
 
 interface IProps {
     onChange: React.Dispatch<React.SetStateAction<string>>;
@@ -8,8 +9,9 @@ interface IProps {
 
 interface ILanguageOptions {
     value: string;
-    label: string
+    label: string;
 }
+
 const LanguageSelect: FC<IProps> = ({onChange, language}) => {
     const languageOptions: ILanguageOptions[] = [
         {value: 'en', label: 'EN'},
@@ -19,20 +21,8 @@ const LanguageSelect: FC<IProps> = ({onChange, language}) => {
     return (
         <div className={styles.wrapper}>
             <img src="/language.svg" alt="language"/>
-            <select
-                value={language}
-                onChange={(e) => {
-                    onChange(e.target.value)
-                }}
-            >
-                {languageOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </select>
+            <SelectCustom onChange={onChange} language={language}/>
         </div>
     );
 };
 export default LanguageSelect;
-

@@ -1,33 +1,49 @@
 import React, {FC} from 'react';
-import Card from "../Card/Card";
-import {IResponseCurrentWeather, IWeeklyForecast} from "../../types/IForecast";
+import Card from '../Card/Card';
+import {IResponseCurrentWeather, IWeeklyForecast} from '../../types/IForecast';
+import {motion, AnimatePresence} from 'framer-motion';
+import styles from './CardWrapper.module.scss';
 
-interface IProps{
-    weather:{
+const appear = {
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {duration: 0.5, ease: 'easeOut'},
+    },
+    hidden: {opacity: 0, scale: 0.1, transition: {duration: 0.3}}
+};
+
+interface IProps {
+    weather: {
         currentWeather: IResponseCurrentWeather;
-        weeklyWeather:IWeeklyForecast[]
-        isCelsius:boolean
-    }[]
+        weeklyWeather: IWeeklyForecast[];
+        isCelsius: boolean;
+    }[];
 }
-const CardWrapper : FC<IProps> = ({weather}) => {
+
+const CardWrapper: FC<IProps> = ({weather}) => {
     return (
-        <div>
-            <div style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 20,
-                justifyContent: 'start',
-                margin: 40,
-                marginTop: 150
-            }}>
-                {weather.length > 0 && weather.map((v) =>
-                    <Card
-                        key={v.currentWeather.coord.lat}
-                        currentWeather={v.currentWeather}
-                        weeklyWeather={v.weeklyWeather}
-                        isCelsius={v.isCelsius}
-                    />)}
-            </div>
+        <div className={styles.wrapper}>
+            <AnimatePresence>
+                {weather.length > 0 &&
+                    weather.map((v, i: number) => (
+                        <motion.div
+                            key={v.currentWeather.coord.lat}
+                            custom={i}
+                            initial={{opacity: 0, scale: 0.3}}
+                            variants={appear}
+                            animate={'visible'}
+                            exit={'hidden'}
+                        >
+                            <Card
+                                key={v.currentWeather.coord.lat}
+                                currentWeather={v.currentWeather}
+                                weeklyWeather={v.weeklyWeather}
+                                isCelsius={v.isCelsius}
+                            />
+                        </motion.div>
+                    ))}
+            </AnimatePresence>
         </div>
     );
 };
