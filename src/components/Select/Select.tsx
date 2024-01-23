@@ -8,8 +8,6 @@ interface IProps {
     language: string;
 }
 const SelectCustom:React.FC<IProps> = ({onChange,language}) => {
-    const [age, setAge] = React.useState('');
-
     const handleChange = (event: SelectChangeEvent) => {
         onChange(event.target.value);
     };
